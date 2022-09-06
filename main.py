@@ -75,6 +75,7 @@ class Menu():
 class Game():
     def __init__(self):
         self.clock = pygame.time.Clock()
+        pygame.mixer.pre_init(44100, -16, 2, 512)
         pygame.init()
         pygame.display.set_caption('Space Shooter')
         self.icon = pygame.image.load(
@@ -83,6 +84,8 @@ class Game():
         self.window_size = pygame.math.Vector2(600, 400)
         self.display = pygame.display.set_mode(self.window_size)
         self.click = False
+
+        self.shoot_sound = pygame.mixer.Sound('assets/sounds/shoot.wav')
 
         self.border = pygame.Rect(0, 0, 10, 400)
         self.border.center = (self.window_size.x // 2,
@@ -168,10 +171,12 @@ class Game():
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LCTRL:
+                        self.shoot_sound.play()
                         bullet = pygame.Rect(0, 0, 10, 5)
                         bullet.center = self.players.p1_rect.center
                         self.players.p1_bullets.append(bullet)
                     if event.key == pygame.K_RCTRL:
+                        self.shoot_sound.play()
                         bullet = pygame.Rect(0, 0, 10, 5)
                         bullet.center = self.players.p2_rect.center
                         self.players.p2_bullets.append(bullet)
