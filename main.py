@@ -6,6 +6,7 @@ from player import Players
 class Menu():
     def __init__(self):
         self.clock = pygame.time.Clock()
+        pygame.mixer.pre_init(44100, -16, 2, 512)
         pygame.init()
         pygame.display.set_caption('Space Shooter')
         self.icon = pygame.image.load(
@@ -19,6 +20,8 @@ class Menu():
             'assets/main ship/Main Ship - Base - Full health.png'), (96, 96))
         self.ship_rect = self.ship_image.get_rect(
             center=(self.window_size.x // 2, 200))
+
+        self.select_sound = pygame.mixer.Sound('assets/sounds/select.wav')
 
     def draw_text(self, text, size, color, surface, pos):
         font = pygame.font.Font('assets/PressStart2P-Regular.ttf', size)
@@ -42,6 +45,7 @@ class Menu():
             play_button.center = (200, 300)
             if play_button.collidepoint((mx, my)):
                 if self.click:
+                    self.select_sound.play()
                     Main().game_state = Game().game()
             pygame.draw.rect(self.display, (0, 0, 0), play_button)
             pygame.draw.rect(self.display, (255, 255, 255), play_button, 5)
@@ -52,6 +56,7 @@ class Menu():
             quit_button.center = (400, 300)
             if quit_button.collidepoint((mx, my)):
                 if self.click:
+                    self.select_sound.play()
                     pygame.quit()
                     sys.exit()
             pygame.draw.rect(self.display, (0, 0, 0), quit_button)
@@ -86,6 +91,7 @@ class Game():
         self.click = False
 
         self.shoot_sound = pygame.mixer.Sound('assets/sounds/shoot.wav')
+        self.select_sound = pygame.mixer.Sound('assets/sounds/select.wav')
 
         self.border = pygame.Rect(0, 0, 10, 400)
         self.border.center = (self.window_size.x // 2,
@@ -120,6 +126,7 @@ class Game():
             play_button.center = (200, 300)
             if play_button.collidepoint((mx, my)):
                 if self.click:
+                    self.select_sound.play()
                     Main().game_state = Game().game()
             pygame.draw.rect(self.display, (0, 0, 0), play_button)
             pygame.draw.rect(self.display, (255, 255, 255), play_button, 5)
@@ -130,6 +137,7 @@ class Game():
             quit_button.center = (400, 300)
             if quit_button.collidepoint((mx, my)):
                 if self.click:
+                    self.select_sound.play()
                     pygame.quit()
                     sys.exit()
             pygame.draw.rect(self.display, (0, 0, 0), quit_button)
